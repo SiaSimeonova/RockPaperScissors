@@ -91,16 +91,18 @@ class Game {
      * In a round hand shape for both game players are chosen and is announced the round winner.
      */
     private function playRound() {
+        $roundWinner = null;
         do {
             $this->player1->choseHandShape(static::$handShapes);
             $this->player2->choseHandShape(static::$handShapes);
-        } while ($this->player1->getHandShape() == $this->player2->getHandShape());
+            $roundWinner = $this->roundWinner();
+        } while (empty($roundWinner));
 
         echo 'Player1 chose ' . $this->player1->getHandShape() . '.' . PHP_EOL;
         sleep(1);
         echo 'Player2 chose ' . $this->player2->getHandShape() . '.' . PHP_EOL;
         sleep(1);
-        $this->setRoundVictory();
+        $roundWinner->addVictory();
 
         echo PHP_EOL;
     }
@@ -108,7 +110,7 @@ class Game {
     /**
      * Compare round wins of each of the players and announce who is the winner of the game.
      */
-    private function winner() {      
+    private function winner() {
         $player1Victories = $this->player1->getVictories();
         $player2Victories = $this->player2->getVictories();
         echo 'Player1 wins ' . $player1Victories . ' rounds.' . PHP_EOL;
@@ -124,14 +126,16 @@ class Game {
 
     /**
      * Check which of the players shape has power over the other and set player victories.
+     * 
+     * @return Player The winner of the round or null or there is no winner.
      */
-    private function setRoundVictory() {
+    private function roundWinner() {
         if (static::$handShapesPower[$this->player1->getHandShape()] === $this->player2->getHandShape()) {
-            echo 'Round winner: Player1.' . PHP_EOL;
-            $this->player1->addVictory();
+            return $this->player1;
+        } else if (static::$handShapesPower[$this->player2->getHandShape()] === $this->player1->getHandShape()) {
+            return $this->player2;
         } else {
-            echo 'Round winner: Player2.' . PHP_EOL;
-            $this->player2->addVictory();
+            return null;
         }
     }
 
