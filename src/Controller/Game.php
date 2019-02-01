@@ -98,10 +98,6 @@ class Game {
             $roundWinner = $this->roundWinner();
         } while (empty($roundWinner));
 
-        echo 'Player1 chose ' . $this->player1->getHandShape() . '.' . PHP_EOL;
-        sleep(1);
-        echo 'Player2 chose ' . $this->player2->getHandShape() . '.' . PHP_EOL;
-        sleep(1);
         $roundWinner->addVictory();
 
         echo PHP_EOL;
@@ -130,9 +126,14 @@ class Game {
      * @return Player The winner of the round or null or there is no winner.
      */
     private function roundWinner() {
+        $roundShapesMessage = '(' . $this->player1->getHandShape() . ' vs ' . $this->player2->getHandShape() . ') ';
+
+        $roundWinner = null;
         if (static::$handShapesPower[$this->player1->getHandShape()] === $this->player2->getHandShape()) {
+            echo 'Round winner is Player1. ' . $roundShapesMessage . PHP_EOL;
             return $this->player1;
         } else if (static::$handShapesPower[$this->player2->getHandShape()] === $this->player1->getHandShape()) {
+            echo 'Round winner is Player2. ' . $roundShapesMessage . PHP_EOL;
             return $this->player2;
         } else {
             return null;
