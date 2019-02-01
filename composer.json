@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "project": "src/"
+            "project\\": "src/"
         }
     },
     "autoload-dev": {

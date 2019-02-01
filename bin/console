@@ -2,7 +2,8 @@
 <?php
 require '../vendor/autoload.php';
 
-use demoProject\Controller\Game;
+use project\Controller\Game;
 
 $game = new Game();
-$game->play(1);
+$game->playRounds(4);
+$game->play();
