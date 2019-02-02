@@ -140,4 +140,31 @@ class Game {
         }
     }
 
+    /**
+     * Add hand shape value and update handShapePower array with values for all hand shapes.
+     * 
+     * @param string $shapeValue The new hand shape value for adding.
+     * @param array $handShapePowers Array with tho hand shapes key is the winner, value is the loser.
+     */
+    public function addNewHandShape($shapeValue, array $handShapePowers) {
+        if (empty($shapeValue)) {
+            echo 'Invalid value';
+            return false;
+        } else if (in_array($shapeValue, static::$handShapes)) {
+            echo 'Value is already set in the collection.';
+            return false;
+        }
+
+        static::$handShapes[] = $shapeValue;
+        foreach (static::$handShapes as $value) {
+            if (!isset($handShapePowers[$value]) || in_array($value, $handShapePowers)) {
+                echo 'Each hand shape power should be included twice - once as a key, and once as a value.' . PHP_EOL;
+                return false;
+            }
+        }
+
+        static::$handShapesPower = $handShapePowers;
+        return true;
+    }
+
 }
