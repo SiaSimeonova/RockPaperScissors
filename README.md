@@ -1,5 +1,5 @@
 
-This project is simylation of 'Rock, Paper, Sceasors' game with simulations for both players.
+This project is simulation of 'Rock, Paper, Scissors' game with simulations for both players.
 
 The project requirements:
 Class 'Game' should be created.
