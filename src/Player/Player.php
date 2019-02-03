@@ -20,13 +20,21 @@ class Player {
     private $handShape;
 
     /**
-     * Setter for $handShape property.
+     * Set get random value from the given array and set it to handShape property.
      * 
-     * @return int The value of $handShape property of the object.
+     * @param array $variants Collection with available values for chose.
+     * @return boolean The result of the method execution. False if no values are given.
      */
     public function choseHandShape(array $variants) {
+        if (empty($variants)) {
+            echo 'No values for chosing available.' . PHP_EOL;
+            return false;
+        }
+
         $randomIndex = rand(0, count($variants) - 1);
         $this->handShape = $variants[$randomIndex];
+
+        return true;
     }
 
     /**

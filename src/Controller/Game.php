@@ -33,7 +33,7 @@ class Game {
     /**
      * @var array The available hand shapes, that could be chosen in the game.
      */
-    private static $handShapes = array(
+    private $handShapes = array(
         'Rock',
         'Paper',
         'Scissors'
@@ -43,7 +43,7 @@ class Game {
      * @var array The powers of each of the available hand shapes.
      * 'key' is the winner, 'value' is the loser.
      */
-    private static $handShapesPower = array(
+    private $handShapesPower = array(
         'Rock' => 'Scissors',
         'Paper' => 'Rock',
         'Scissors' => 'Paper'
@@ -52,6 +52,14 @@ class Game {
     public function __construct() {
         $this->player1 = new Player();
         $this->player2 = new Player();
+    }
+
+    public function getHandShapes() {
+        return $this->handShapes;
+    }
+
+    public function getHandShapesPower() {
+        return $this->handShapesPower;
     }
 
     /**
@@ -93,8 +101,8 @@ class Game {
     private function playRound() {
         $roundWinner = null;
         do {
-            $this->player1->choseHandShape(static::$handShapes);
-            $this->player2->choseHandShape(static::$handShapes);
+            $this->player1->choseHandShape($this->handShapes);
+            $this->player2->choseHandShape($this->handShapes);
             $roundWinner = $this->roundWinner();
         } while (empty($roundWinner));
 
@@ -129,10 +137,10 @@ class Game {
         $roundShapesMessage = '(' . $this->player1->getHandShape() . ' vs ' . $this->player2->getHandShape() . ') ';
 
         $roundWinner = null;
-        if (static::$handShapesPower[$this->player1->getHandShape()] === $this->player2->getHandShape()) {
+        if ($this->handShapesPower[$this->player1->getHandShape()] === $this->player2->getHandShape()) {
             echo 'Round winner is Player1. ' . $roundShapesMessage . PHP_EOL;
             return $this->player1;
-        } else if (static::$handShapesPower[$this->player2->getHandShape()] === $this->player1->getHandShape()) {
+        } else if ($this->handShapesPower[$this->player2->getHandShape()] === $this->player1->getHandShape()) {
             echo 'Round winner is Player2. ' . $roundShapesMessage . PHP_EOL;
             return $this->player2;
         } else {
@@ -150,20 +158,22 @@ class Game {
         if (empty($shapeValue)) {
             echo 'Invalid value';
             return false;
-        } else if (in_array($shapeValue, static::$handShapes)) {
+        } else if (in_array($shapeValue, $this->handShapes)) {
             echo 'Value is already set in the collection.';
             return false;
         }
 
-        static::$handShapes[] = $shapeValue;
-        foreach (static::$handShapes as $value) {
-            if (!isset($handShapePowers[$value]) || in_array($value, $handShapePowers)) {
+        $newHandShapeSet = $this->handShapes;
+        $newHandShapeSet[] = $shapeValue;
+        foreach ($newHandShapeSet as $value) {
+            if (!isset($handShapePowers[$value]) || !in_array($value, $handShapePowers)) {
                 echo 'Each hand shape power should be included twice - once as a key, and once as a value.' . PHP_EOL;
                 return false;
             }
         }
 
-        static::$handShapesPower = $handShapePowers;
+        $this->handShapes = $newHandShapeSet;
+        $this->handShapesPower = $handShapePowers;
         return true;
     }
 

@@ -8,3 +8,12 @@
 ###< symfony/framework-bundle ###
 /nbproject/private/
 *~
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
